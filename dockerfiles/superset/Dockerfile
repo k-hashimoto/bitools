@@ -50,9 +50,8 @@ WORKDIR /home/superset
 
 RUN echo "#!/bin/bash \n set -e \n fabmanager create-admin --app superset $@ \n superset db upgrade \n superset init" > /usr/local/bin/superset-init  && chmod a+x /usr/local/bin/superset-init
 
-ADD singlestore_bq.json /home/superset/
-RUN chmod a+x /home/superset/singlestore_bq.json
-ENV GOOGLE_APPLICATION_CREDENTIALS "/home/superset/singlestore_bq.json"
+COPY login_info.json /home/superset/
+ENV GOOGLE_APPLICATION_CREDENTIALS login_info.json
 
 # Deploy application
 EXPOSE 8088
